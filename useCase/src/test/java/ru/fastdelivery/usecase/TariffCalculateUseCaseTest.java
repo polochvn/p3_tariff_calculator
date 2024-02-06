@@ -33,18 +33,20 @@ class TariffCalculateUseCaseTest {
     void whenCalculatePrice_thenSuccess() {
         var minimalPrice = new Price(BigDecimal.TEN, currency);
         var pricePerKg = new Price(BigDecimal.valueOf(100), currency);
+        var priceCubMeter = new Price(BigDecimal.valueOf(300), currency);
 
         when(weightPriceProvider.minimalPrice()).thenReturn(minimalPrice);
         when(weightPriceProvider.costPerKg()).thenReturn(pricePerKg);
+        when(weightPriceProvider.costCubicMeters()).thenReturn(priceCubMeter);
 
         var shipment = new Shipment(List.of(
                 new Pack(
                         new Weight(BigInteger.valueOf(1200)),
-                        new Length(BigInteger.valueOf(150_001)),
-                        new Width(BigInteger.valueOf(150_001)),
-                        new Height(BigInteger.valueOf(150_001)))),
+                        new Length(BigInteger.valueOf(1_341)),
+                        new Width(BigInteger.valueOf(431)),
+                        new Height(BigInteger.valueOf(1_021)))),
                 new CurrencyFactory(code -> true).create("RUB"));
-        var expectedPrice = new Price(BigDecimal.valueOf(120), currency);
+        var expectedPrice = new Price(BigDecimal.valueOf(191.37), currency);
 
         var actualPrice = tariffCalculateUseCase.calc(shipment);
 

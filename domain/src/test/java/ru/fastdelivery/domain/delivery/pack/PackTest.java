@@ -14,22 +14,28 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PackTest {
 
     @Test
-    void whenWeightMoreThanMaxWeight_thenThrowException() {
+    void whenPackMoreThanMaxCharacteristics_thenThrowException() {
         var weight = new Weight(BigInteger.valueOf(150_001));
-        var length = new Length(BigInteger.valueOf(150_001));
-        var width = new Width(BigInteger.valueOf(150_001));
-        var height = new Height(BigInteger.valueOf(150_001));
+        var length = new Length(BigInteger.valueOf(1_501));
+        var width = new Width(BigInteger.valueOf(1_501));
+        var height = new Height(BigInteger.valueOf(1_501));
         assertThatThrownBy(() -> new Pack(weight, length, width, height))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void whenWeightLessThanMaxWeight_thenObjectCreated() {
+    void whenPackageLessThanMaxPackParams_thenObjectCreated() {
         var actual = new Pack(
                 new Weight(BigInteger.valueOf(1_000)),
-                new Length(BigInteger.valueOf(150_001)),
-                new Width(BigInteger.valueOf(150_001)),
-                new Height(BigInteger.valueOf(150_001)));
-        assertThat(actual.weight()).isEqualTo(new Weight(BigInteger.valueOf(1_000)));
+                new Length(BigInteger.valueOf(1_100)),
+                new Width(BigInteger.valueOf(750)),
+                new Height(BigInteger.valueOf(350)));
+
+        assertThat(actual).isEqualTo(new Pack(
+                new Weight(BigInteger.valueOf(1_000)),
+                new Length(BigInteger.valueOf(1_100)),
+                new Width(BigInteger.valueOf(750)),
+                new Height(BigInteger.valueOf(350))));
+
     }
 }

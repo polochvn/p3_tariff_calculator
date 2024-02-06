@@ -33,7 +33,7 @@ class CalculateControllerTest extends ControllerTest {
     @DisplayName("Валидные данные для расчета стоимость -> Ответ 200")
     void whenValidInputData_thenReturn200() {
         var request = new CalculatePackagesRequest(
-                List.of(new CargoPackage(BigInteger.TEN, BigInteger.TEN, BigInteger.TEN, BigInteger.TEN)), "RUB");
+                List.of(new CargoPackage(BigInteger.valueOf(2_323), BigInteger.valueOf(1_323), BigInteger.valueOf(323), BigInteger.valueOf(723))), "RUB");
         var rub = new CurrencyFactory(code -> true).create("RUB");
         when(useCase.calc(any())).thenReturn(new Price(BigDecimal.valueOf(10), rub));
         when(useCase.minimalPrice()).thenReturn(new Price(BigDecimal.valueOf(5), rub));
