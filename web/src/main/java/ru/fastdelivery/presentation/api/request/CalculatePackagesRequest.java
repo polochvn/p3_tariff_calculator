@@ -1,6 +1,7 @@
 package ru.fastdelivery.presentation.api.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,7 +13,7 @@ public record CalculatePackagesRequest(
                 example = "[{\"weight\": 4056.45}]")
         @NotNull
         @NotEmpty
-        List<CargoPackage> packages,
+        List<@Valid CargoPackage> packages,
 
         @Schema(description = "Трехбуквенный код валюты", example = "RUB")
         @NotNull

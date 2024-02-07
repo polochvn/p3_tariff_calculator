@@ -2,6 +2,8 @@ package ru.fastdelivery.calc;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ class CalculateControllerTest extends ControllerTest {
     @DisplayName("Валидные данные для расчета стоимость -> Ответ 200")
     void whenValidInputData_thenReturn200() {
         var request = new CalculatePackagesRequest(
-                List.of(new CargoPackage(BigInteger.valueOf(2_323), BigInteger.valueOf(1_323), BigInteger.valueOf(323), BigInteger.valueOf(723))), "RUB");
+                List.of(new CargoPackage(BigInteger.valueOf(1_468), BigInteger.valueOf(1_423), BigInteger.valueOf(323), BigInteger.valueOf(723))), "RUB");
         var rub = new CurrencyFactory(code -> true).create("RUB");
         when(useCase.calc(any())).thenReturn(new Price(BigDecimal.valueOf(10), rub));
         when(useCase.minimalPrice()).thenReturn(new Price(BigDecimal.valueOf(5), rub));
@@ -50,6 +52,25 @@ class CalculateControllerTest extends ControllerTest {
         var request = new CalculatePackagesRequest(null, "RUB");
 
         ResponseEntity<String> response = restTemplate.postForEntity(baseCalculateApi, request, String.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "1000, 1, -1, 200",
+            "1999, 199, 0, 435",
+            "1500, 2943, 1, 435",
+            "451, 242, 431, 1501"})
+    @DisplayName("Невалидные данные для расчета стоимость -> Ответ 400 BAD_REQUEST")
+    void whenNotValidInputData_thenReturn400(BigInteger weight, BigInteger length, BigInteger width, BigInteger height) {
+        var request = new CalculatePackagesRequest(
+                List.of(new CargoPackage(weight, length, width, height)), "RUB");
+        var rub = new CurrencyFactory(code -> true).create("RUB");
+        when(useCase.calc(any())).thenReturn(new Price(BigDecimal.valueOf(10), rub));
+        when(useCase.minimalPrice()).thenReturn(new Price(BigDecimal.valueOf(5), rub));
+
+        ResponseEntity<CalculatePackagesResponse> response =
+                restTemplate.postForEntity(baseCalculateApi, request, CalculatePackagesResponse.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }

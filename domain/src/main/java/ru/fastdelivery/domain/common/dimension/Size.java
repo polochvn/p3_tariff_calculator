@@ -18,10 +18,6 @@ public class Size implements Comparable<Size> {
         return BigInteger.ZERO.compareTo(size) > 0;
     }
 
-    private static boolean isGreaterThanMaxSize(BigInteger size) {
-        return BigInteger.valueOf(1_500).compareTo(size) < 0;
-    }
-
     public BigInteger getSizeMillimeters() {
         return sizeMillimeters;
     }
