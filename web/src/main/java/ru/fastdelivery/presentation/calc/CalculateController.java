@@ -18,6 +18,8 @@ import ru.fastdelivery.domain.common.weight.Weight;
 import ru.fastdelivery.domain.delivery.pack.Pack;
 import ru.fastdelivery.domain.delivery.shipment.Shipment;
 import ru.fastdelivery.presentation.api.request.CalculatePackagesRequest;
+import ru.fastdelivery.domain.common.coordinate.Departure;
+import ru.fastdelivery.domain.common.coordinate.Destination;
 import ru.fastdelivery.presentation.api.response.CalculatePackagesResponse;
 import ru.fastdelivery.usecase.TariffCalculateUseCase;
 
@@ -45,7 +47,10 @@ public class CalculateController {
                         new Height(p.height())))
                 .toList();
 
-        var shipment = new Shipment(packsWeights, currencyFactory.create(request.currencyCode()));
+        Destination destination = new Destination(request.destination().getLatitude(), request.destination().getLongitude());
+        Departure departure = new Departure(request.departure().getLatitude(), request.departure().getLongitude());
+
+        var shipment = new Shipment(packsWeights, currencyFactory.create(request.currencyCode()), destination, departure);
         var calculatedPrice = tariffCalculateUseCase.calc(shipment);
         var minimalPrice = tariffCalculateUseCase.minimalPrice();
         return new CalculatePackagesResponse(calculatedPrice, minimalPrice);

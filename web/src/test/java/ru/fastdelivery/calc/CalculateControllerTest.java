@@ -57,7 +57,8 @@ class CalculateControllerTest extends ControllerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({ "1000, 1, -1, 200",
+    @CsvSource({
+            "1000, 1, -1, 200",
             "1999, 199, 0, 435",
             "1500, 2943, 1, 435",
             "451, 242, 431, 1501"})

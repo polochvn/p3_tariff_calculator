@@ -9,14 +9,33 @@ import java.util.List;
 
 @Schema(description = "Данные для расчета стоимости доставки")
 public record CalculatePackagesRequest(
-        @Schema(description = "Список упаковок отправления",
-                example = "[{\"weight\": 4056.45}]")
-        @NotNull
+
         @NotEmpty
+        @NotNull
+        @Schema(description = "Список упаковок отправления",
+                example =
+                        "[{\"weight\": 4564,\n" +
+                        "  \"length\": 345,\n" +
+                        "  \"width\": 589,\n" +
+                        "  \"height\": 234]")
         List<@Valid CargoPackage> packages,
 
-        @Schema(description = "Трехбуквенный код валюты", example = "RUB")
         @NotNull
-        String currencyCode
+        @Schema(description = "Трехбуквенный код валюты", example = "RUB")
+        String currencyCode,
+
+        @NotNull
+        @Schema(description = "Пункт назначения в координатах",
+                example =
+                        "{\"latitude\" : 73.398660,\n" +
+                        " \"longitude\" : 55.027532}")
+        Destination destination,
+
+        @NotNull
+        @Schema(description = "Трехбуквенный код валюты",
+                example =
+                        "{\"latitude\" : 55.446008,\n" +
+                        " \"longitude\" : 65.339151}")
+        Departure departure
 ) {
 }

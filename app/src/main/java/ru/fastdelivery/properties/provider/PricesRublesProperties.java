@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.fastdelivery.domain.common.currency.CurrencyFactory;
 import ru.fastdelivery.domain.common.price.Price;
-import ru.fastdelivery.usecase.WeightPriceProvider;
+import ru.fastdelivery.usecase.PriceProvider;
 
 import java.math.BigDecimal;
 
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  */
 @ConfigurationProperties("cost.rub")
 @Setter
-public class PricesRublesProperties implements WeightPriceProvider {
+public class PricesRublesProperties implements PriceProvider {
 
     private BigDecimal perKg;
     private BigDecimal minimal;

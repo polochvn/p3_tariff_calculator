@@ -23,10 +23,10 @@ import static org.mockito.Mockito.when;
 
 class TariffCalculateUseCaseTest {
 
-    final WeightPriceProvider weightPriceProvider = mock(WeightPriceProvider.class);
+    final PriceProvider priceProvider = mock(PriceProvider.class);
     final Currency currency = new CurrencyFactory(code -> true).create("RUB");
 
-    final TariffCalculateUseCase tariffCalculateUseCase = new TariffCalculateUseCase(weightPriceProvider);
+    final TariffCalculateUseCase tariffCalculateUseCase = new TariffCalculateUseCase(priceProvider);
 
     @Test
     @DisplayName("Расчет стоимости доставки -> успешно")
@@ -35,9 +35,9 @@ class TariffCalculateUseCaseTest {
         var pricePerKg = new Price(BigDecimal.valueOf(100), currency);
         var priceCubMeter = new Price(BigDecimal.valueOf(300), currency);
 
-        when(weightPriceProvider.minimalPrice()).thenReturn(minimalPrice);
-        when(weightPriceProvider.costPerKg()).thenReturn(pricePerKg);
-        when(weightPriceProvider.costCubicMeters()).thenReturn(priceCubMeter);
+        when(priceProvider.minimalPrice()).thenReturn(minimalPrice);
+        when(priceProvider.costPerKg()).thenReturn(pricePerKg);
+        when(priceProvider.costCubicMeters()).thenReturn(priceCubMeter);
 
         var shipment = new Shipment(List.of(
                 new Pack(
@@ -60,7 +60,7 @@ class TariffCalculateUseCaseTest {
     void whenMinimalPrice_thenSuccess() {
         BigDecimal minimalValue = BigDecimal.TEN;
         var minimalPrice = new Price(minimalValue, currency);
-        when(weightPriceProvider.minimalPrice()).thenReturn(minimalPrice);
+        when(priceProvider.minimalPrice()).thenReturn(minimalPrice);
 
         var actual = tariffCalculateUseCase.minimalPrice();
 

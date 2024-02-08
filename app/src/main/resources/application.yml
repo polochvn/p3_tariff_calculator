@@ -6,3 +6,7 @@ cost:
     perKg: 400
     minimal: 350
     cubicMeters: 250
+point:
+  degree:
+    latitude: [45, 65]
+    longitude: [30, 96]
