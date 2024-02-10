@@ -1,6 +1,8 @@
 package ru.fastdelivery.domain.delivery.shipment;
 
 import org.junit.jupiter.api.Test;
+import ru.fastdelivery.domain.common.coordinate.Departure;
+import ru.fastdelivery.domain.common.coordinate.Destination;
 import ru.fastdelivery.domain.common.currency.CurrencyFactory;
 import ru.fastdelivery.domain.common.dimension.Height;
 import ru.fastdelivery.domain.common.dimension.Length;
@@ -28,12 +30,16 @@ class ShipmentTest {
         var width2 = new Width(BigInteger.valueOf(443));
         var height2 = new Height(BigInteger.valueOf(1_323));
 
+        var destination = new Destination(BigDecimal.valueOf(73.398660), BigDecimal.valueOf(55.027532));
+        var departure = new Departure(BigDecimal.valueOf(55.446008), BigDecimal.valueOf(65.339151));
+
         var packages = List.of(new Pack(weight1, length1, width1, height1), new Pack(weight2, length2, width2, height2));
-        var shipment = new Shipment(packages, new CurrencyFactory(code -> true).create("RUB"));
+        var shipment = new Shipment(packages, new CurrencyFactory(code -> true).create("RUB"), destination, departure);
 
         var massOfShipment = shipment.weightAllPackages();
         var volumeOfShipment = shipment.volumeAllPackages();
 
+        assertThat(shipment.calculateDistance()).isEqualByComparingTo(BigDecimal.valueOf(2056));
         assertThat(massOfShipment.weightGrams()).isEqualByComparingTo(BigInteger.valueOf(11));
         assertThat(volumeOfShipment).isEqualByComparingTo(BigDecimal.valueOf(2.1795));
     }

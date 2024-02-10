@@ -15,27 +15,29 @@ public record CalculatePackagesRequest(
         @Schema(description = "Список упаковок отправления",
                 example =
                         "[{\"weight\": 4564,\n" +
-                        "  \"length\": 345,\n" +
-                        "  \"width\": 589,\n" +
-                        "  \"height\": 234]")
+                                "  \"length\": 345,\n" +
+                                "  \"width\": 589,\n" +
+                                "  \"height\": 234]")
         List<@Valid CargoPackage> packages,
 
         @NotNull
         @Schema(description = "Трехбуквенный код валюты", example = "RUB")
         String currencyCode,
 
+        @Valid
         @NotNull
-        @Schema(description = "Пункт назначения в координатах",
+        @Schema(description = "Пункт назначения товара",
                 example =
                         "{\"latitude\" : 73.398660,\n" +
-                        " \"longitude\" : 55.027532}")
+                                " \"longitude\" : 55.027532}")
         Destination destination,
 
+        @Valid
         @NotNull
-        @Schema(description = "Трехбуквенный код валюты",
+        @Schema(description = "Пункт отправки товари",
                 example =
                         "{\"latitude\" : 55.446008,\n" +
-                        " \"longitude\" : 65.339151}")
+                                " \"longitude\" : 65.339151}")
         Departure departure
 ) {
 }

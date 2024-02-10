@@ -52,4 +52,25 @@ class PriceTest {
         assertThatThrownBy(() -> price.max(moreThanPrice))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void calcPriceWhenDistanceMoreThanMinDistance() {
+        var price = new Price(BigDecimal.valueOf(345), currency);
+        var moreThanMinDistance = new BigDecimal(500);
+
+        var actualPrice = price.calcOnDistance(moreThanMinDistance);
+        var expectedPrice = new Price(BigDecimal.valueOf(383.34), currency);
+
+        assertThat(actualPrice).isEqualTo(expectedPrice);
+    }
+
+    @Test
+    void calcPriceWhenDistanceLessThanMinDistance() {
+        var price = new Price(BigDecimal.valueOf(788.23), currency);
+        var lessThanMinDistance = new BigDecimal(200);
+
+        var actualPrice = price.calcOnDistance(lessThanMinDistance);
+
+        assertThat(actualPrice).isEqualTo(price);
+    }
 }

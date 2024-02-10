@@ -16,4 +16,14 @@ public class CoordinateProperties implements CoordinateProvider {
 
     List<BigDecimal> latitudes;
     List<BigDecimal> longitudes;
+
+    @Override
+    public boolean isAvailableLatitude(BigDecimal latitude) {
+        return latitude.doubleValue() >= latitudes.get(1).doubleValue() && latitude.doubleValue() <= latitudes.get(2).doubleValue();
+    }
+
+    @Override
+    public boolean isAvailableLongitude(BigDecimal longitude) {
+        return longitude.doubleValue() >= longitudes.get(1).doubleValue() && longitude.doubleValue() <= longitudes.get(2).doubleValue();
+    }
 }

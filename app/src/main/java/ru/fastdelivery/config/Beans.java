@@ -2,8 +2,10 @@ package ru.fastdelivery.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.fastdelivery.domain.common.coordinate.PointFactory;
 import ru.fastdelivery.domain.common.currency.CurrencyFactory;
 import ru.fastdelivery.domain.common.currency.CurrencyPropertiesProvider;
+import ru.fastdelivery.properties.provider.CoordinateProperties;
 import ru.fastdelivery.usecase.TariffCalculateUseCase;
 import ru.fastdelivery.usecase.PriceProvider;
 
@@ -12,6 +14,11 @@ import ru.fastdelivery.usecase.PriceProvider;
  */
 @Configuration
 public class Beans {
+
+    @Bean
+    public PointFactory pointFactory(CoordinateProperties coordinateProperties) {
+        return new PointFactory(coordinateProperties);
+    }
 
     @Bean
     public CurrencyFactory currencyFactory(CurrencyPropertiesProvider currencyProperties) {
