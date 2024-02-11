@@ -71,11 +71,11 @@ public class SizeTest {
     @ParameterizedTest(name = "Размеры = {arguments} -> объект создан")
     @MethodSource("intArrayProvider")
     @DisplayName("Добавление положительного веса -> вес увеличился")
-    void whenTestingBothSizeArrays_ShouldBeEqual(BigInteger[] args) {
+    void whenTestingBothSizeArrays_ShouldBeEqual(BigDecimal[] args) {
         BigDecimal[] arrayOfRoundingSizes = new BigDecimal[args.length];
 
         for (int i = 0; i < args.length; i++) {
-            var roundingSize = new Size(args[i]).getRoundSizeMillimeters();
+            var roundingSize = new Size(args[i].toBigInteger()).getRoundSizeMillimeters();
             arrayOfRoundingSizes[i] = roundingSize;
         }
 
